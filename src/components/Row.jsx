@@ -1,16 +1,20 @@
-import React, { Fragment } from "react";
+import React from "react";
 
 export default function Row({ guess }) {
   const Cell = (val) => {
-    return (
-      <>
-        <div className={`cell ${val.color}`}>{val.key}</div>
-      </>
-    );
+    return <div className="filled">{val.key}</div>;
   };
 
   if (guess) {
-    return <div className="row">{guess.map((val, index) => (<Fragment key={index}>{Cell(val)}</Fragment>))}</div>;
+    return (
+      <div className="row">
+        {guess.map((val, index) => (
+          <div className={`cell ${val.color}`} key={index}>
+            {Cell(val)}
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (

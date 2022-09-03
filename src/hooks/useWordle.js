@@ -8,10 +8,10 @@ const useWordle = (solution) => {
   ]);
   const [history, setHistory] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [usedKeys, setUsedKeys] = useState({}); // {a: "yellow", b: "green", c: "grey"}
 
   // [{key: "a", color: "yellow"}]
   const formatGuess = () => {
-    console.log("In format guess", currentGuess);
     const solutionArray = [...solution];
     let formattedGuess = [...currentGuess];
 
@@ -63,17 +63,34 @@ const useWordle = (solution) => {
       setIsCorrect(true);
     }
 
+    setUsedKeys((prevUsedKeys) => {
+      let newUsedKeys = { ...prevUsedKeys };
+
+      guess.forEach((letterVal) => {
+        const { key, color } = letterVal;
+        if (color === "green") {
+          newUsedKeys[key] = "green";
+        } else if (color === "yellow" && usedKeys[key] !== "green") {
+          newUsedKeys[key] = "yellow";
+        } else if (
+          color === "grey" &&
+          newUsedKeys[key] !== "green" &&
+          newUsedKeys[key] !== "yellow"
+        ) {
+          newUsedKeys[key] = "grey";
+        }
+      });
+
+      return newUsedKeys;
+    });
+
     setCurrentGuess("");
   };
 
   // Update the keup event and update current guess and if the enter key is pressed add to the guesses state.
   const handleKeyUp = ({ key }) => {
-    if (isCorrect) {
-      return;
-    }
     if (key === "Enter") {
       if (turn > 5) {
-        console.log("All tries done");
         return;
       }
 
@@ -101,7 +118,7 @@ const useWordle = (solution) => {
     }
   };
 
-  return { turn, currentGuess, guesses, isCorrect, handleKeyUp };
+  return { turn, currentGuess, guesses, isCorrect, handleKeyUp, usedKeys };
 };
 
 export default useWordle;
