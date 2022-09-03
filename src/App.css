@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+
+.wordle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee;
+  height: 100vh;
+}
+
+.row {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.row > .cell {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #bbb;
+  text-align: center;
+  text-transform: uppercase;
+  display: block;
+  font-weight: 700;
+  font-size: 20px;
+  justify-content: center;
+  margin: 5px;
+  line-height: 60px;
+}
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+
+.grey {
+  background-color: gray;
+}
